@@ -1,0 +1,21 @@
+# Simulation executables
+sim/sim
+*.out
+a.out
+
+# Waveform files
+*.vcd
+*.vpd
+*.fst
+
+# Temporary files
+*.tmp
+*.log
+*.bak
+
+# Editor files
+*.swp
+*~
+
+# Compiled simulation outputs
+*.o
