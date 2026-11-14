@@ -1,7 +1,8 @@
 module hazard(RegWriteW, RdW, RegWriteM, RdM, ResultSrcE0, PCSrcE, Rs1E, Rs2E, RdE, Rs1D, Rs2D, StallF, StallD, FlushD, FlushE, ForwardAE, ForwardBE);
     input RegWriteW, RegWriteM, ResultSrcE0, PCSrcE;
     input [4:0] RdW, RdM, Rs1E, Rs2E, RdE, Rs1D, Rs2D;
-    output reg StallF, StallD, FlushD, FlushE;
+    output reg StallF, StallD;
+    output FlushD, FlushE;
     output reg [1:0] ForwardAE, ForwardBE;
 
     reg lwStall;

@@ -3,6 +3,6 @@ module writeback(ResultSrc, ALUResult, ReadData, PCplus4, Result);
     input [31:0] ALUResult, ReadData, PCplus4;
     output [31:0] Result;
 
-    mux3 #(32) resultmux(ALUResult, ReadData, PCplus4, ResultSrc, Result);
+    mux3 resultmux(ALUResult, ReadData, PCplus4, ResultSrc, Result);
 
 endmodule

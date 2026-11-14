@@ -7,6 +7,6 @@ module top(input clk, reset,
     // instantiate processor and memories
     rvpipeline rvpipe(clk, reset, Instr, ReadData, PC, MemWrite, DataAdr, WriteData);
 
-    mem imem(clk, 1'b0, PC, 32'b0, Instr);
+    imem imem(clk, PC, 32'b0, Instr);
     dmem dmem(clk, MemWrite, DataAdr, WriteData, ReadData);
 endmodule

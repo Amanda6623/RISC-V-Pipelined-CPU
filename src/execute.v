@@ -11,12 +11,11 @@ module execute(clk, RD1, RD2, PC, ImmExt, ForwardAE, ForwardBE, Result, ALUResul
     wire [31:0] SrcA, SrcB;
     wire Zero;
 
-    mux3 #(32) srcamux(RD1, Result, ALUResultM, ForwardAE, SrcA);
-    mux3 #(32) srcbmux1(RD2, Result, ALUResultM, ForwardBE, WriteData);
-    mux2 #(32) srcbmux2(WriteData, ImmExt, ALUSrc, SrcB);
+    mux3 srcamux(RD1, Result, ALUResultM, ForwardAE, SrcA);
+    mux3 srcbmux1(RD2, Result, ALUResultM, ForwardBE, WriteData);
+    mux2 srcbmux2(WriteData, ImmExt, ALUSrc, SrcB);
     alu alu(SrcA, SrcB, ALUControl, ALUResult, Zero);
     adder pctarg(PC, ImmExt, PCTarget);
 
-    initial PCSrc = 0;
     always @(*) PCSrc = (Zero & Branch) | Jump; 
 endmodule

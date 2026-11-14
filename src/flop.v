@@ -1,7 +1,6 @@
-module flopenr #(parameter WIDTH = 8)
-                (input clk, reset, en,
-                input [(WIDTH-1) : 0] d,
-                output reg [(WIDTH-1) : 0] q);
+module flopenr(input clk, reset, en,
+                input [31 : 0] d,
+                output reg [31 : 0] q);
 
     always @(posedge clk, posedge reset) begin
         if (reset)     q <= 0;
@@ -11,10 +10,9 @@ endmodule
 
 
 
-module flopr #(parameter WIDTH = 8)
-                (input clk, reset,
-                input [(WIDTH-1):0] d,
-                output reg [(WIDTH-1):0] q);
+module flopr   (input clk, reset,
+                input [31:0] d,
+                output reg [31:0] q);
 
     always @(posedge clk, posedge reset)
         if (reset) q <= 0;
@@ -72,8 +70,8 @@ module regDE(clk, reset, RegWriteD, ResultSrcD, MemWriteD, JumpD, BranchD, ALUCo
 endmodule
 
 
-module regem(clk, RegWriteE, ResultSrcE, MemWriteE, ALUResult, WriteDataE, RdE, PCPlus4E, RegWriteM, ResultSrcM, MemWriteM, ALUResultM, WriteDataM, RdM, PCPlus4M);
-    input clk;
+module regem(clk, reset, RegWriteE, ResultSrcE, MemWriteE, ALUResult, WriteDataE, RdE, PCPlus4E, RegWriteM, ResultSrcM, MemWriteM, ALUResultM, WriteDataM, RdM, PCPlus4M);
+    input clk, reset;
     input RegWriteE, MemWriteE;
     input [1:0] ResultSrcE;
     input [4:0] RdE;
@@ -83,14 +81,18 @@ module regem(clk, RegWriteE, ResultSrcE, MemWriteE, ALUResult, WriteDataE, RdE, 
     output reg [4:0] RdM;
     output reg [31:0] ALUResultM, WriteDataM, PCPlus4M;
 
+
     always @(posedge clk) begin
-        RegWriteM <= RegWriteE;
-        ResultSrcM <= ResultSrcE;
-        MemWriteM <= MemWriteE;
-        ALUResultM <= ALUResult;
-        WriteDataM <= WriteDataE;
-        RdM <= RdE;
-        PCPlus4M <= PCPlus4E; 
+        if (reset) {RegWriteM, ResultSrcM, MemWriteM, ALUResultM, WriteDataM, RdM, PCPlus4M} <= 0;
+	else begin
+	    RegWriteM <= RegWriteE;
+	    ResultSrcM <= ResultSrcE;
+	    MemWriteM <= MemWriteE;
+	    ALUResultM <= ALUResult;
+	    WriteDataM <= WriteDataE;
+	    RdM <= RdE;
+	    PCPlus4M <= PCPlus4E;
+    	end 
     end
         
 endmodule
