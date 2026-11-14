@@ -16,7 +16,7 @@ module rvpipeline(clk, reset, InstrF, ReadData, PCF, MemWriteM, ALUResultM, Writ
     wire [31:0] PCD, InstrD, RD1, RD2, ImmExtD, PCPlus4D;     
 
     // Execute Signals
-    wire PCSrcE, RegWriteE, MemWriteE, JumpE, BranchE, ALUSrcE;
+    wire PCSrcE, RegWriteE, MemWriteE, JumpE, BranchE, ALUSrcE, FlushE;
     wire [1:0] ResultSrcE, ForwardAE, ForwardBE;
     wire [2:0] ALUControlE;
     wire [4:0] Rs1E, Rs2E, RdE;

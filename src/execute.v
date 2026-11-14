@@ -9,6 +9,7 @@ module execute(clk, RD1, RD2, PC, ImmExt, ForwardAE, ForwardBE, Result, ALUResul
     output [31:0] ALUResult, WriteData, PCTarget;
 
     wire [31:0] SrcA, SrcB;
+    wire Zero;
 
     mux3 #(32) srcamux(RD1, Result, ALUResultM, ForwardAE, SrcA);
     mux3 #(32) srcbmux1(RD2, Result, ALUResultM, ForwardBE, WriteData);

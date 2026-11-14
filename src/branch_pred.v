@@ -1,36 +1,54 @@
-module branch_pred(clk, reset, taken, branch);
-    input clk, reset, taken;
-    output branch;
+// module branch_pred(clk, PC, PCE, PCSrcE, PCSrc_predE, PCTargetE, PCPlus4F, PCSrc_predF, PCTargetF);
+//     input clk, PCSrcE, PCSrc_predE;
+//     input [31:0] PC, PCE, PCTargetE, PCPlus4F;
+//     output PCSrc_predF;
+//     output [31:0] PCTargetF;
 
-    wire [1:0] d;
-    reg [1:0] q;
+//     reg [31:0] PClib [31:0];
+//     reg [31:0] PCTarget [31:0];
+//     reg [1:0] branch_state [31:0];
 
-    // State 0 = branch strongly taken
-    // State 1 = branch weakly taken
-    // State 2 = branch weakly not taken
-    // State 3 = branch strongly not taken
+//     // State 00 = branch strongly not taken
+//     // State 01 = branch weakly not taken
+//     // State 10 = branch weakly taken
+//     // State 11 = branch strongly taken
 
-    always @(*) begin
-        case(q)
-            2'b00: d = taken ? 2'b00 : 2'b01;
-            2'b01: d = taken ? 2'b00 : 2'b10;
-            2'b10: d = taken ? 2'b01 : 2'b11;
-            2'b11: d = taken ? 2'b10 : 2'b11;
-        endcase
-    end
 
-    always @(posedge clk) begin
-        if(reset) q <= 2'b10;
-        else q <= d;
-    end
+//     initial 
 
-    always @(*) begin
-        case(q)
-            2'b00: branch = 1;
-            2'b01: branch = 1;
-            2'b10: branch = 0;
-            2'b11: branch = 0;
-        endcase
-    end
 
-endmodule
+//     integer i;
+//     integer a;
+//     initial a = 0;
+
+//     // BTB
+//     always @(*) begin
+//         case(PC)
+//             PClib[0]: i = 0;
+//             PClib[1]: i = 1;
+//             ... continued
+//             default: i = 32;    // when PC does not have an entry
+//         endcase
+//     end
+
+//     // Branch state update
+//     always @(*) begin
+//         case()
+//     end
+
+//     // Update BHT and BTB tables
+//     always @(posedge clk) begin
+//         if(PCSrcE) begin
+//             PClib[a] <= PCE;
+//             PCTarget[a] <= PCTargetE;
+//             branch_state[a] <= 2'b01;
+//         end
+//     end
+
+
+//     always @(*) begin
+//         branch_predict = 
+//         PCSrc_predF =
+//     end
+
+// endmodule
