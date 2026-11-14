@@ -1,7 +1,6 @@
-module decode(clk, Instr, Result, RdW, RegWriteW, RegWriteD, ResultSrc, MemWrite, Jump, Branch, ALUControl, ALUSrc, RD1, RD2, Rs1, Rs2, RdD, ImmExt);
-    input clk, RegWriteW;
-    input [31:0] Instr, Result;
-    input [4:0] RdW;
+module decode(clk, Instr, RegWriteD, ResultSrc, MemWrite, Jump, Branch, ALUControl, ALUSrc, Rs1, Rs2, RdD, ImmExt);
+    input clk;
+    input [31:0] Instr;
     output RegWriteD, MemWrite, Jump, Branch, ALUSrc;
     output [1:0] ResultSrc;
     output [2:0] ALUControl;
@@ -10,7 +9,6 @@ module decode(clk, Instr, Result, RdW, RegWriteW, RegWriteD, ResultSrc, MemWrite
 
     wire [1:0] ImmSrc;
 
-    regfile rf(clk, RegWriteW, Instr[19:15], Instr[24:20], RdW, Result, RD1, RD2);
     extend ext(Instr[31:7], ImmSrc, ImmExt);
 
     controller c(Instr[6:0], Instr[14:12], Instr[30], ResultSrc, MemWrite, ALUSrc, RegWriteD, Jump, Branch, ImmSrc, ALUControl);

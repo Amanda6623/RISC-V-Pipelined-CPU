@@ -1,8 +1,9 @@
-module rvpipeline(clk, reset, InstrF, ReadData, PCF, MemWriteM, ALUResultM, WriteDataM);
+module rvpipeline(clk, reset, InstrF, ReadData, RD1, RD2, InstrD, PCF, MemWriteM, ALUResultM, WriteDataM, ResultW, RegWriteW, RdW);
     input clk, reset;
-    input [31:0] InstrF, ReadData;
-    output [31:0] PCF, ALUResultM, WriteDataM;
-    output MemWriteM;
+    input [31:0] InstrF, ReadData, RD1, RD2;
+    output [31:0] InstrD, PCF, ALUResultM, WriteDataM, ResultW;
+    output MemWriteM, RegWriteW;
+    output [4:0] RdW;
 
     // Fetch signals
     wire StallF;
@@ -13,7 +14,7 @@ module rvpipeline(clk, reset, InstrF, ReadData, PCF, MemWriteM, ALUResultM, Writ
     wire [1:0] ResultSrcD;
     wire [2:0] ALUControlD;
     wire [4:0] Rs1D, Rs2D, RdD;
-    wire [31:0] PCD, InstrD, RD1, RD2, ImmExtD, PCPlus4D;     
+    wire [31:0] PCD, ImmExtD, PCPlus4D;     
 
     // Execute Signals
     wire PCSrcE, FlushE, RegWriteE, MemWriteE, JumpE, BranchE, ALUSrcE;
@@ -29,10 +30,8 @@ module rvpipeline(clk, reset, InstrF, ReadData, PCF, MemWriteM, ALUResultM, Writ
     wire [31:0] PCPlus4M;
 
     // WriteBack Signals
-    wire RegWriteW;
     wire [1:0] ResultSrcW;
-    wire [4:0] RdW;
-    wire [31:0] ResultW, ALUResultW, ReadDataW, PCPlus4W; 
+    wire [31:0] ALUResultW, ReadDataW, PCPlus4W; 
 
 
     // Fetch
@@ -40,7 +39,7 @@ module rvpipeline(clk, reset, InstrF, ReadData, PCF, MemWriteM, ALUResultM, Writ
     regFD fereg(clk, FlushD, ~StallD, InstrF, PCF, PCPlus4F, InstrD, PCD, PCPlus4D);
 
     // Decode
-    decode de(clk, InstrD, ResultW, RdW, RegWriteW, RegWriteD, ResultSrcD, MemWriteD, JumpD, BranchD, ALUControlD, ALUSrcD, RD1, RD2, Rs1D, Rs2D, RdD, ImmExtD);
+    decode de(clk, InstrD, RegWriteD, ResultSrcD, MemWriteD, JumpD, BranchD, ALUControlD, ALUSrcD, Rs1D, Rs2D, RdD, ImmExtD);
     regDE dereg(clk, (FlushE | reset), RegWriteD, ResultSrcD, MemWriteD, JumpD, BranchD, ALUControlD, ALUSrcD, RD1, RD2, PCD, Rs1D, Rs2D, RdD, ImmExtD, PCPlus4D, RegWriteE, ResultSrcE, MemWriteE, JumpE, BranchE, ALUControlE, ALUSrcE, RD1E, RD2E, PCE, Rs1E, Rs2E, RdE, ImmExtE, PCPlus4E);
 
     // Execute

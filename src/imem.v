@@ -1,15 +1,16 @@
 module imem(
-	input clk,
+	input clk, we,
 	input [31:0] a, wd,
 	output [31:0] rd
 );
 	
 	reg [31:0] RAM [0:63];
 
+`ifndef SYNTHESIS
 	initial begin
-		$readmemh("riscvtest.txt", RAM);
+		$readmemh("../src/riscvtest.txt", RAM);
 	end
-
+`endif
 
 	assign rd = RAM[a[31:2]];
 
